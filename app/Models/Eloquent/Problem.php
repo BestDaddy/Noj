@@ -2,6 +2,7 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\OJModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Submission\SubmissionModel as OutdatedSubmissionModel;
@@ -26,6 +27,10 @@ class Problem extends Model
     public function problemSamples()
     {
         return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
+    }
+
+    public function oj(){
+        return $this->belongsTo(OJ::class, 'OJ');
     }
 
     public function getProblemStatusAttribute()

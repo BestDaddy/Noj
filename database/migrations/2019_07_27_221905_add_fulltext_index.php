@@ -13,10 +13,10 @@ class AddFulltextIndex extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE `problem` ADD FULLTEXT(`title`) WITH PARSER ngram');
-        DB::statement('ALTER TABLE `group` ADD FULLTEXT(`name`) WITH PARSER ngram');
-        DB::statement('ALTER TABLE `contest` ADD FULLTEXT(`name`) WITH PARSER ngram');
-        DB::statement('ALTER TABLE `users` ADD FULLTEXT(`name`) WITH PARSER ngram');
+//        DB::statement('ALTER TABLE `problem` ADD FULLTEXT(`title`) WITH PARSER ngram');
+//        DB::statement('ALTER TABLE `group` ADD FULLTEXT(`name`) WITH PARSER ngram');
+//        DB::statement('ALTER TABLE `contest` ADD FULLTEXT(`name`) WITH PARSER ngram');
+//        DB::statement('ALTER TABLE `users` ADD FULLTEXT(`name`) WITH PARSER ngram');
     }
 
     /**
@@ -26,9 +26,9 @@ class AddFulltextIndex extends Migration
      */
     public function down()
     {
-        DB::statement('ALTER TABLE `problem` DROP INDEX `title`');
-        DB::statement('ALTER TABLE `group` DROP INDEX `name`');
-        DB::statement('ALTER TABLE `contest` DROP INDEX `name`');
-        DB::statement('ALTER TABLE `users` DROP INDEX `name`');
+//        DB::statement('ALTER TABLE `problem` DROP INDEX `title`');
+//        DB::statement('ALTER TABLE `group` DROP INDEX `name`');
+//        DB::statement('ALTER TABLE `contest` DROP INDEX `name`');
+//        DB::statement('ALTER TABLE `users` DROP INDEX `name`');
     }
 }

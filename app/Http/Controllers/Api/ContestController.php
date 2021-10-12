@@ -3,15 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContestModel;
 use App\Models\Eloquent\Submission;
 use App\Models\ContestModel as OutdatedContestModel;
 use App\Jobs\ProcessSubmission;
+use App\Models\ProblemModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ContestController extends Controller
 {
     public function info(Request $request) {
+//        dd('asdf');
         $contest=$request->contest;
+//        if(empty($contest) && $request->input('cid'))
+//            $contest = ContestModel::find($request->input('cid'));
+
         return response()->json([
             'success' => true,
             'message' => 'Succeed',
@@ -297,7 +304,7 @@ class ContestController extends Controller
             'cid' => $contest->cid,
             'type' => 1,
             'title' => $request->title,
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'public' => 0,
             'uid' => auth()->user()->id
         ]);
@@ -427,14 +434,14 @@ class ContestController extends Controller
             'cid' => $problem->contest_id,
             'vcid' => $request->vcid,
             'iid' => $problem->index_id,
-            'oj' => $problem->oj,
+            'oj' => data_get($problem, 'oj.ocode'),
             'coid' => $compiler->coid,
             'solution' => $request->solution,
             'contest' => $contest->cid,
             'sid' => $submission->sid
         ];
         try {
-            dispatch(new ProcessSubmission($all_data))->onQueue($problem->oj);
+            dispatch(new ProcessSubmission($all_data))->onQueue($all_data['oj']);
         } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,

@@ -14,7 +14,7 @@ class AddForeignKeysToPastebinTable extends Migration {
     {
         Schema::table('pastebin', function(Blueprint $table)
         {
-            $table->foreign('uid', 'pastebin_uid')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
+//            $table->foreign('uid', 'pastebin_uid')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -28,7 +28,7 @@ class AddForeignKeysToPastebinTable extends Migration {
     {
         Schema::table('pastebin', function(Blueprint $table)
         {
-            $table->dropForeign('pastebin_uid');
+//            $table->dropForeign('pastebin_uid');
         });
     }
 
