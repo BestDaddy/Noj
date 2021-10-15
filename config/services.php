@@ -54,4 +54,9 @@ return [
         'redirect' => env('AAUTH_CALLBACK_URL'),
     ],
 
+    'bitlab' => [
+        'url' => env('BITLAB_URL', 'https://app.bitlab.academy'),
+        'api' => '/api/v1/compiler/get-result',
+    ],
+
 ];

@@ -44,10 +44,13 @@ class Submitter
 
         try {
             $client = new \GuzzleHttp\Client();
+            $url = config('services.bitlab.url') . '/api/v1/compiler/get-result';
+
             $body['score'] = data_get($submission, 'score');
             $body['submission_id'] = data_get($submission, 'sid');
             $body['compile_info'] = data_get($submission, 'compile_info');
-            $request = $client->post('http://192.168.1.11:8080/api/v1/compiler/get-result', ['form_params' =>$body]);
+
+            $client->post($url, ['form_params' =>$body]);
         } catch (\Exception $e) {
             Log::info(data_get($submission, 'sid'). ' was not sent');
         }
