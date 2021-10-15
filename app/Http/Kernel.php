@@ -74,6 +74,7 @@ class Kernel extends HttpKernel
         'api.contest.hasProblem' => \App\Http\Middleware\Api\Contest\HasProblem::class,
         'api.contest.hasCompiler' => \App\Http\Middleware\Api\Contest\HasCompiler::class,
 
+        'api.submission.hasToken' => \App\Http\Middleware\Api\Submission\HasToken::class,
         'api.submission.exist' => \App\Http\Middleware\Api\Submission\Exist::class,
     ];
 

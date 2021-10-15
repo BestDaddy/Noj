@@ -403,7 +403,7 @@ class SubmissionModel extends Model
             $sub['sid']=$sid;
             // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
-        return $result;
+        return $submission_info;
     }
 
     public function getRecord($filter)

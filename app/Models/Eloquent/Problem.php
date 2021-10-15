@@ -29,10 +29,6 @@ class Problem extends Model
         return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
     }
 
-    public function oj(){
-        return $this->belongsTo(OJ::class, 'OJ');
-    }
-
     public function getProblemStatusAttribute()
     {
         if (Auth::check()) {

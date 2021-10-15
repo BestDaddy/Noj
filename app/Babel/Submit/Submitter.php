@@ -4,6 +4,7 @@ namespace App\Babel\Submit;
 
 use App\Models\Submission\SubmissionModel;
 use App\Babel\Submit\Core;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
@@ -37,9 +38,19 @@ class Submitter
         }
 
         // insert submission
-
         $submission=new SubmissionModel();
-        $submission->updateSubmission($this->post_data["sid"], $sub);
+        $submission = $submission->updateSubmission($this->post_data["sid"], $sub);
+
+
+        try {
+            $client = new \GuzzleHttp\Client();
+            $body['score'] = data_get($submission, 'score');
+            $body['submission_id'] = data_get($submission, 'sid');
+            $body['compile_info'] = data_get($submission, 'compile_info');
+            $request = $client->post('http://192.168.1.11:8080/api/v1/compiler/get-result', ['form_params' =>$body]);
+        } catch (\Exception $e) {
+            Log::info(data_get($submission, 'sid'). ' was not sent');
+        }
     }
 
     public static function create($oj, & $sub, $all_data)

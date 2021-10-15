@@ -44,4 +44,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'submission','as' => 'submission.','middleware' => ['auth:api']], function () {
         Route::post('/info', 'SubmissionController@info')->middleware(['api.submission.exist'])->name("info");
     });
+
+    Route::post('/submit', 'ContestController@submit')->middleware(['api.submission.hasToken']);
+    Route::post('/test-api', 'SubmissionController@test');
 });

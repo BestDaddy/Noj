@@ -121,6 +121,7 @@ class Submitter extends Curl
                         $this->sub["score"]--;
                     }
                 }
+                $this->sub["score"] = ($this->sub["score"] / count($temp["data"])) * 100;
                 if ($this->sub["score"]==0) {
                     $this->sub['verdict']=$this->verdictDict[$temp["data"][0]["result"]];
                     $this->sub['time']=$temp["data"][0]["cpu_time"];
@@ -161,6 +162,7 @@ class Submitter extends Curl
                 $this->sub["score"]--;
             }
         }
+        $this->sub["score"] = ($this->sub["score"] / count($temp["data"])) * 100;
         foreach ($temp["data"] as $record) {
             if ($record["result"]) {
                 // well... WA or anyway

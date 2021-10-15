@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContestModel;
+use App\Models\Eloquent\Compiler;
+use App\Models\Eloquent\OJ;
+use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Submission;
 use App\Models\ContestModel as OutdatedContestModel;
 use App\Jobs\ProcessSubmission;
@@ -422,7 +425,7 @@ class ContestController extends Controller
             'pid'=>$problem->pid,
             'remote_id'=>'',
             'coid'=>$compiler->coid,
-            'cid'=>$contest->cid,
+            'cid'=>null,
             'vcid'=>$request->vcid,
             'jid'=>null,
             'score'=>0
@@ -431,7 +434,7 @@ class ContestController extends Controller
             'lang' => $compiler->lcode,
             'pid' => $problem->pid,
             'pcode' => $problem->pcode,
-            'cid' => $problem->contest_id,
+            'cid' => null,
             'vcid' => $request->vcid,
             'iid' => $problem->index_id,
             'oj' => data_get($problem, 'oj.ocode'),
@@ -476,6 +479,86 @@ class ContestController extends Controller
                 "clarifications" => [
                     $clarification
                 ]
+            ],
+            'err' => []
+        ]);
+    }
+
+    public function submit(Request $request) {
+        $problem = Problem::find($request->input('pid'));
+        $compiler = Compiler::find($request->input('coid'));
+        $oj = OJ::where('oid', data_get($problem, 'OJ'), 1)->first();
+        $user = $request->user;
+        if(empty($problem))
+            return response()->json([
+                    'error' => 'Problem not found',
+                    'success' => false,
+                ])
+                ->setStatusCode(404);
+        if(empty($compiler))
+            return response()->json([
+                    'error' => 'Compiler not found',
+                    'success' => false,
+                ])
+                ->setStatusCode(404);
+        if(empty($oj))
+            return response()->json([
+                'error' => 'Worker not found',
+                'success' => false,
+                ])
+                ->setStatusCode(404);
+
+        $submission=Submission::create([
+            'time'=>'0',
+            'memory'=>'0',
+            'verdict'=>'Pending',
+            'solution'=>$request->solution,
+            'language'=>$compiler->display_name,
+            'submission_date'=>time(),
+            'uid'=>$user->id,
+            'pid'=>$problem->pid,
+            'remote_id'=>'',
+            'coid'=>$compiler->coid,
+            'cid'=> null,
+            'vcid'=>$request->vcid,
+            'jid'=>null,
+            'score'=>0
+        ]);
+        $all_data=[
+            'lang' => $compiler->lcode,
+            'pid' => $problem->pid,
+            'pcode' => $problem->pcode,
+            'cid' => null,
+            'vcid' => $request->vcid,
+            'iid' => $problem->index_id,
+            'oj' => data_get($oj, 'ocode'),
+            'coid' => $compiler->coid,
+            'solution' => $request->solution,
+            'contest' => null,
+            'sid' => $submission->sid
+        ];
+
+
+
+        try {
+            dispatch(new ProcessSubmission($all_data))->onQueue($all_data['oj']);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'ret' => [],
+                'err' => [
+                    'code' => 1100,
+                    'msg' => $e->getMessage(),
+                    'data'=> []
+                ]
+            ]);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "sid" => $submission->sid,
             ],
             'err' => []
         ]);

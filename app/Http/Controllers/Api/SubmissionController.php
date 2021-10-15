@@ -19,4 +19,13 @@ class SubmissionController extends Controller
             'err' => []
         ]);
     }
+
+    public function test(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+        $body['score'] = 10;
+        $body['submission_id'] = 95;
+        $request = $client->post('http://192.168.1.11:8080/api/v1/compiler/get-result', ['form_params' =>$body]);
+        return $request;
+    }
 }
