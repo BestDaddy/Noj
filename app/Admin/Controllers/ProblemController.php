@@ -151,8 +151,8 @@ class ProblemController extends Controller
             $form->text('pid')->readonly();
             $form->text('pcode')->rules('required');
             $form->text('title')->rules('required');
-            $form->text('time_limit')->rules('required');
-            $form->text('memory_limit')->rules('required');
+            $form->text('time_limit')->value(2000)->rules('required');
+            $form->text('memory_limit')->value(	64500)->rules('required');
             $form->simplemde('description')->rules('required');
             $form->simplemde('input');
             $form->simplemde('output');
