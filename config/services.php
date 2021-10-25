@@ -57,6 +57,7 @@ return [
     'bitlab' => [
         'url' => env('BITLAB_URL', 'https://app.bitlab.academy'),
         'api' => '/api/v1/compiler/get-result',
+        'token' => 'base64:dH6XInkOjdrglizlf9TrP8zs+IOeUMLQ91kEoO4Y1gM=',
     ],
 
 ];
