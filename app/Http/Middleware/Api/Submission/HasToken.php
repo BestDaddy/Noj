@@ -11,8 +11,9 @@ class HasToken
 {
     public function handle($request, Closure $next)
     {
-        $user = User::whereNotNull('remember_token')->where('remember_token', $request->input('token'))->first();
-        if (empty($user)) {
+        $allow_token = $request->token == config('services.bitlab.token');
+        $user = User::first();
+        if (!$allow_token || empty($user)) {
             return response()->json([
                     'success' => false,
                     'message' => 'Invalid token',
