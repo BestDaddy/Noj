@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Problem as EloquentProblemModel;
 use App\Models\Eloquent\OJ as EloquentOJModel;
 use App\Http\Controllers\Controller;
@@ -151,6 +152,15 @@ class ProblemController extends Controller
             $form->text('pid')->readonly();
             $form->text('pcode')->rules('required');
             $form->text('title')->rules('required');
+            $form->select('level_coef')->options([
+                '0.3' => 'Easy',
+                Problem::LEVEL_MEDIUM => 'Medium',
+                Problem::LEVEL_HARD => 'Hard'
+            ])->default(Problem::LEVEL_EASY);
+            $form->select('type')->options([
+                Problem::TYPE_DEFAULT => 'Default',
+                Problem::TYPE_TRAINING => 'Training'
+            ])->default(Problem::TYPE_DEFAULT);
             $form->text('time_limit')->value(2000)->rules('required');
             $form->text('memory_limit')->value(	64500)->rules('required');
             $form->simplemde('description')->rules('required');

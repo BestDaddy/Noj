@@ -46,5 +46,6 @@ Route::group(['namespace' => 'Api'], function () {
     });
 
     Route::post('/submit', 'ContestController@submit')->middleware(['api.submission.hasToken']);
+    Route::get('/problems', 'ProblemController@index')->middleware(['api.submission.hasToken']);
     Route::post('/test-api', 'SubmissionController@test');
 });

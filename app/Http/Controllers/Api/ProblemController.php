@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Eloquent\Problem;
 use Illuminate\Http\Request;
 
 class ProblemController extends Controller
@@ -46,5 +47,12 @@ class ProblemController extends Controller
             ],
             'err' => []
         ]);
+    }
+
+    public function index(Request $request){
+        return Problem::select('pid', 'title', 'description', 'level_coef')
+            ->where('type', Problem::TYPE_TRAINING)
+            ->orderBy('pid')
+            ->paginate($request->input('paginate', 10));
     }
 }

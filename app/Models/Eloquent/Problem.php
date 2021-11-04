@@ -14,6 +14,13 @@ class Problem extends Model
     protected $primaryKey='pid';
     const UPDATED_AT="update_date";
 
+    const TYPE_DEFAULT  = 1;
+    const TYPE_TRAINING = 2;
+
+    const LEVEL_EASY    = 0.3;
+    const LEVEL_MEDIUM  = 0.5;
+    const LEVEL_HARD    = 1;
+
     public function getReadableNameAttribute()
     {
         return $this->pcode.'. '.$this->title;

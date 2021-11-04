@@ -2,6 +2,7 @@
 
 namespace App\Babel\Submit;
 
+use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
 use App\Babel\Submit\Core;
 use Illuminate\Support\Facades\Log;
@@ -45,10 +46,12 @@ class Submitter
         try {
             $client = new \GuzzleHttp\Client();
             $url = config('services.bitlab.url') . '/api/v1/compiler/get-result';
+            $problem = Problem::find(data_get($submission, 'pid'));
 
             $body['score'] = data_get($submission, 'score');
             $body['submission_id'] = data_get($submission, 'sid');
             $body['compile_info'] = data_get($submission, 'compile_info');
+            $body['level_coef'] = data_get($problem, 'level_coef');
 
             $client->post($url, ['form_params' =>$body]);
         } catch (\Exception $e) {
