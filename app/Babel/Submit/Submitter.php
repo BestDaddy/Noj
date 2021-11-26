@@ -5,6 +5,7 @@ namespace App\Babel\Submit;
 use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
 use App\Babel\Submit\Core;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -44,6 +45,7 @@ class Submitter
 
 
         try {
+            Log::info(data_get($submission, 'sid'). ' is sending to APP. time: ' . Carbon::now()->toTimeString());
             $client = new \GuzzleHttp\Client();
             $url = config('services.bitlab.url') . '/api/v1/compiler/get-result';
             $problem = Problem::find(data_get($submission, 'pid'));
