@@ -45,7 +45,7 @@ class Submitter
 
 
         try {
-//            Log::info(data_get($submission, 'sid'). ' is sending to APP');
+            Log::info(data_get($submission, 'sid'). ' is sending to APP');
             $client = new \GuzzleHttp\Client();
             $url = config('services.bitlab.url') . '/api/v1/compiler/get-result';
             $problem = Problem::find(data_get($submission, 'pid'));
