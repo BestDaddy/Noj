@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Submission\SubmissionModel;
 use App\Babel\Babel;
+use Illuminate\Support\Facades\Log;
 
 class ProcessSubmission implements ShouldQueue
 {
@@ -40,6 +41,7 @@ class ProcessSubmission implements ShouldQueue
 
     public function failed()
     {
+        Log::info('sub_id failed: '. $this->all_data["sid"]);
         $submissionModel=new SubmissionModel();
         $submissionModel->updateSubmission($this->all_data["sid"], ["verdict"=>"Submission Error"]);
     }
