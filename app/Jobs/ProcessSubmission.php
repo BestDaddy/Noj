@@ -15,7 +15,7 @@ class ProcessSubmission implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries=5;
+    public $tries=3;
     protected $all_data=[];
 
     /**
