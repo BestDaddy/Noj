@@ -38,8 +38,8 @@ return [
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default',
-            'retry_after' => 90,
-            'timeout' => 180
+            'retry_after' => 30,
+            'timeout' => 40
         ],
 
         'beanstalkd' => [
@@ -62,9 +62,9 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => 30,
+            'retry_after' => 90,
             'block_for' => null,
-            'timeout' => 60
+            'timeout' => 100
         ],
 
     ],
